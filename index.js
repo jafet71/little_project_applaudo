@@ -5,6 +5,8 @@ const airlineRoutes = require('./routes/airline');
 const boardingGateRoutes = require('./routes/boardingGate');
 const aircraftStateRoutes = require('./routes/aircraftState');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+const routes = require('./routes');
 
 const app = express();
 const PORT = 8080;
@@ -21,6 +23,8 @@ db.authenticate()
 // Middleware para manejar el body en formato JSON
 // app.use(express.json());
 app.use(bodyParser.json());
+app.use(cors())
+app.use(routes);
 
 // Rutas
 app.use('/api', aircraftRoutes);

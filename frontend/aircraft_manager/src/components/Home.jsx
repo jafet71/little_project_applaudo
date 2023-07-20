@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import AircraftTable from './AircraftTable';
+import AddAircraftForm from './AddAircraftForm';
+import EditAircraftForm from './EditAircraftForm';
+import BoardingGateAssign from './BoardingGateAssign';
 
 const Home = () => {
   const [aircraft, setAircraft] = useState([]);
+  const [boardingGates, setBoardingGates] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadData();
@@ -10,59 +16,75 @@ const Home = () => {
 
   const loadData = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/aircrafts'); // Actualización aquí
-      setAircraft(response.data.data);
+      const aircraftData = await axios.get('http://localhost:8080/api/aircrafts');
+      setAircraft(aircraftData.data.data);
+
+      const boardingGatesData = await axios.get('http://localhost:8080/api/boardinggates');
+      setBoardingGates(boardingGatesData.data.data);
+      setLoading(false);
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
 
-  const handleDelete = async (type, id) => {
+  const handleAddAircraft = async (formData) => {
     try {
-      await axios.delete(`http://localhost:8080/api/${type}/${id}`);
+      await axios.post('http://localhost:8080/api/aircrafts', formData);
       loadData();
     } catch (error) {
       console.error(error);
     }
   };
 
+  const handleUpdateAircraft = async (id, formData) => {
+    try {
+      await axios.put(`http://localhost:8080/api/aircrafts/${id}`, formData);
+      loadData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDeleteAircraft = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8080/api/aircrafts/${id}`);
+      loadData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleAssignGate = async (aircraftId, gateId) => {
+    try {
+      await axios.put(`http://localhost:8080/api/aircrafts/${aircraftId}/assign-gate`, {
+        gateId: gateId
+      });
+      loadData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="container mt-5">
-      <h1 className="mb-4">Home</h1>
-      <h2>Aircraft</h2>
-      <table className="table table-bordered">
-        <thead className="table-dark">
-          <tr>
-            <th>ID</th>
-            <th>Registration Number</th>
-            <th>Airline ID</th>
-            <th>Passenger Capacity</th>
-            <th>State ID</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {aircraft.map((item) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.registrationNumber}</td>
-              <td>{item.airline_id}</td>
-              <td>{item.passengerCapacity}</td>
-              <td>{item.state_id}</td>
-              <td>
-                <button
-                  className="btn btn-danger mx-1"
-                  onClick={() => handleDelete('aircraft', item.id)}
-                >
-                  Delete
-                </button>
-                <button className="btn btn-info mx-1">Edit</button>
-                <button className="btn btn-warning mx-1">Update State</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <h1 className="mb-4 text-center">Aircraft Manager</h1>
+      <AircraftTable
+        aircraft={aircraft}
+        handleEdit={handleUpdateAircraft}
+        handleDelete={handleDeleteAircraft}
+      />
+      <AddAircraftForm addAircraft={handleAddAircraft} />
+      <EditAircraftForm aircraft={aircraft[0]} updateAircraft={handleUpdateAircraft} />
+      <BoardingGateAssign
+        aircraft={aircraft[0]}
+        boardingGates={boardingGates}
+        assignGate={handleAssignGate}
+      />
     </div>
   );
 };
