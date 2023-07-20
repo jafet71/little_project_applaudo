@@ -1,4 +1,3 @@
-// controllers/aircraftController.js
 class AircraftController {
   constructor(aircraftModel) {
     this.aircraftModel = aircraftModel;

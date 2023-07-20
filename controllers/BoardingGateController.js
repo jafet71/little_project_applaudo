@@ -1,4 +1,3 @@
-// controllers/boardingGateController.js
 class BoardingGateController {
   constructor(boardingGateModel) {
     this.boardingGateModel = boardingGateModel;

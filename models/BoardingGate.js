@@ -1,6 +1,5 @@
-
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const sequelize = require('../config/conectiondb');
 
 class BoardingGate extends Model {}
 
@@ -17,7 +16,7 @@ BoardingGate.init(
     isActive: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: true, // Inicia en "activa"
+      defaultValue: true, //Inicializa en "activa"
     },
   },
   {
