@@ -1,4 +1,3 @@
-// controllers/airlineController.js
 class AirlineController {
   constructor(airlineModel) {
     this.airlineModel = airlineModel;
@@ -101,11 +100,14 @@ class AirlineController {
           error: 'Airline not found'
         });
       }
-      await airline.destroy();
+
+      //Actualización
+      airline.isActive = false;
+      await airline.save();
 
       res.json({
         success: true,
-        message: 'Airline deleted successfully'
+        message: 'Airline status updated to inactive'
       });
     } catch (error) {
       res.status(500).json({

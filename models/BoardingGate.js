@@ -1,23 +1,29 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/conectiondb');
 
-const BoardingGate = sequelize.define('BoardingGate', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
+
+class BoardingGate extends Model {}
+
+BoardingGate.init(
+  {
+    gateNumber: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    availability: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true, // Inicia en "activa"
+    },
   },
-  gateNumber: {
-    type: DataTypes.STRING(10),
-    allowNull: false
-  },
-  availability: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false
+  {
+    sequelize,
+    modelName: 'BoardingGate',
   }
-}, {
-  tableName: 'BoardingGate',
-  timestamps: false
-});
+);
 
 module.exports = BoardingGate;

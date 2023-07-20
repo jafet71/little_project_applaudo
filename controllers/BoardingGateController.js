@@ -98,19 +98,22 @@ class BoardingGateController {
       if (!boardingGate) {
         return res.status(404).json({
           success: false,
-          error: 'Boarding Gate not found'
+          error: 'Boarding Gate not found',
         });
       }
-      await boardingGate.destroy();
+
+      // Actualización
+      boardingGate.isActive = false;
+      await boardingGate.save();
 
       res.json({
         success: true,
-        message: 'Boarding Gate deleted successfully'
+        message: 'Boarding Gate deactivated successfully', // Mensaje actualizado para reflejar el cambio
       });
     } catch (error) {
       res.status(500).json({
         success: false,
-        error: 'Internal Server Error'
+        error: 'Internal Server Error',
       });
     }
   }
