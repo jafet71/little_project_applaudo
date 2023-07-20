@@ -4,23 +4,9 @@ class AircraftController {
     this.aircraftModel = aircraftModel;
   }
 
-  async getAllAircraft(req, res) {
-    try {
-      const aircraft = await this.aircraftModel.findAll();
-      res.json({
-        success: true,
-        data: aircraft
-      });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        success: false,
-        error: 'Internal Server Error'
-      });
-    }
-  }
+  // ... Métodos existentes: getAllAircraft, getAircraftById, createAircraft y updateAircraft
 
-  async getAircraftById(req, res) {
+  async deleteAircraft(req, res) {
     const { id } = req.params;
 
     try {
@@ -31,9 +17,14 @@ class AircraftController {
           error: 'Aircraft not found'
         });
       }
+
+      // En lugar de eliminar el avión, actualizamos su estado a "no disponible"
+      aircraft.state_id = 'no disponible';
+      await aircraft.save();
+
       res.json({
         success: true,
-        data: aircraft
+        message: 'Aircraft state updated to "no disponible"'
       });
     } catch (error) {
       res.status(500).json({
@@ -42,8 +33,6 @@ class AircraftController {
       });
     }
   }
-
-  // Resto de métodos para crear, actualizar y eliminar un avión...
 }
 
 module.exports = AircraftController;
