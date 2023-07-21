@@ -78,12 +78,10 @@ const Home = () => {
     return <div>Loading...</div>;
   }
 
-  // Get current aircrafts
   const indexOfLastAircraft = currentPage * aircraftPerPage;
   const indexOfFirstAircraft = indexOfLastAircraft - aircraftPerPage;
   const currentAircrafts = aircraft.slice(indexOfFirstAircraft, indexOfLastAircraft);
 
-  // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
