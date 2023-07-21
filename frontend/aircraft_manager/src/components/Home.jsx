@@ -121,11 +121,11 @@ const Home = () => {
         <AddAircraftForm addAircraft={handleAddAircraft} />
       )}
       {activeTab === 'editAircraftForm' && (
-        <EditAircraftForm aircraft={currentAircrafts[0]} updateAircraft={handleUpdateAircraft} />
+        <EditAircraftForm aircraft={aircraft[0]} updateAircraft={handleUpdateAircraft} />
       )}
       {activeTab === 'boardingGateAssign' && (
         <BoardingGateAssign
-          aircraft={currentAircrafts[0]}
+          aircraft={aircraft[0]}
           boardingGates={boardingGates}
           assignGate={handleAssignGate}
         />

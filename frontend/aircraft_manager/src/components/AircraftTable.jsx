@@ -12,7 +12,7 @@ const AircraftTable = ({ aircraft, handleEdit, handleDelete }) => {
             <th>Airline ID</th>
             <th>Passenger Capacity</th>
             <th>State ID</th>
-            <th>Actions</th>
+            <th>Gateway</th> {/* Agregamos la columna para el estado del Gateway */}
           </tr>
         </thead>
         <tbody>
@@ -23,20 +23,7 @@ const AircraftTable = ({ aircraft, handleEdit, handleDelete }) => {
               <td>{item.airline_id}</td>
               <td>{item.passengerCapacity}</td>
               <td>{item.state_id}</td>
-              <td>
-                <button
-                  className="btn btn-danger mx-1"
-                  onClick={() => handleDelete(item.id)}
-                >
-                  Delete
-                </button>
-                <button
-                  className="btn btn-info mx-1"
-                  onClick={() => handleEdit(item)}
-                >
-                  Edit
-                </button>
-              </td>
+              <td>{item.gateway}</td> {/* Mostramos el estado del Gateway */}
             </tr>
           ))}
         </tbody>

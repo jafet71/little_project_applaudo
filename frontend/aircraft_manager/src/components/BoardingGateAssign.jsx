@@ -1,45 +1,39 @@
 import React, { useState } from 'react';
 
 const BoardingGateAssign = ({ aircraft, boardingGates, assignGate }) => {
-  const [selectedGate, setSelectedGate] = useState('');
-
-  const handleChange = (e) => {
-    setSelectedGate(e.target.value);
-  };
+  const [selectedGateId, setSelectedGateId] = useState('');
 
   const handleAssignGate = () => {
-    assignGate(selectedGate);
-    setSelectedGate('');
+    assignGate(aircraft.id, selectedGateId);
   };
 
   return (
     <div>
-      <h2>Boarding Gate Assignment</h2>
-      <div className="mb-3">
-        <label htmlFor="gateSelect" className="form-label">
-          Select a Gate
-        </label>
-        <select
-          className="form-select"
-          id="gateSelect"
-          value={selectedGate}
-          onChange={handleChange}
-        >
-          <option value="">Select a gate...</option>
-          {boardingGates.map((gate) => (
+      <h2>Boarding Gate Assign</h2>
+      <select
+        className="form-select mb-3"
+        onChange={(e) => setSelectedGateId(e.target.value)}
+        value={selectedGateId}
+      >
+        <option value="">Select a Gate</option>
+        {Array.isArray(boardingGates) && boardingGates.length > 0 ? (
+          boardingGates.map((gate) => (
             <option key={gate.id} value={gate.id}>
-              {gate.gateNumber}
+              {gate.name}
             </option>
-          ))}
-        </select>
-      </div>
+          ))
+        ) : (
+          <option value="" disabled>
+            No gates available
+          </option>
+        )}
+      </select>
       <button
-        type="button"
         className="btn btn-primary"
         onClick={handleAssignGate}
-        disabled={!selectedGate}
+        disabled={!selectedGateId}
       >
-        Assign to Gate
+        Assign Gate
       </button>
     </div>
   );
