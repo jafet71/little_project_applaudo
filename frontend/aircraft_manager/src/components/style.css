@@ -1,0 +1,10 @@
+.btn-primary.active {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-primary {
+    background-color: #3498db;
+    border-color: #3498db;
+  }
+  
